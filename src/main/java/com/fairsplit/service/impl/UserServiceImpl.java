@@ -41,4 +41,11 @@ public class UserServiceImpl implements UserService {
         User updatedUserObj = userRepository.save(user);
         return UserMapper.mapToUserDto(updatedUserObj);
     }
+
+    @Override
+    public void deleteUser(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
+        userRepository.deleteById(id);
+    }
 }
