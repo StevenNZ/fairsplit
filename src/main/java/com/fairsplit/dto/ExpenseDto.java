@@ -4,16 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDto {
+public class ExpenseDto {
     private UUID id;
-    private String email;
-    private String name;
-    private String password;
-    private Set<UUID> expenseIds;
+    private int amount;
+    private String description;
+    private LocalDate localDate;
+    private UUID userId;
 }
