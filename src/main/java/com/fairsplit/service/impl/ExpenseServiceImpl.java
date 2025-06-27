@@ -21,9 +21,12 @@ import java.util.UUID;
 public class ExpenseServiceImpl implements ExpenseService {
 
     private ExpenseRepository expenseRepository;
+    private UserRepository userRepository;
 
     @Override
-    public ExpenseDto createExpense(ExpenseDto expenseDto, User user) {
+    public ExpenseDto createExpense(ExpenseDto expenseDto) {
+        User user = userRepository.findById(expenseDto.getUserId())
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + expenseDto.getUserId()));
         Expense expense = ExpenseMapper.mapToExpense(expenseDto, user);
         Expense savedExpense = expenseRepository.save(expense);
         return ExpenseMapper.mapToExpenseDto(savedExpense);
