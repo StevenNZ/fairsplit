@@ -26,9 +26,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     private UserRepository userRepository;
 
     @Override
-    public ExpenseDto createExpense(ExpenseDto expenseDto, UUID userID) {
-        User user = userRepository.findById(userID)
-                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + userID));
+    public ExpenseDto createExpense(ExpenseDto expenseDto, UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + userId));
 
         Expense expense = ExpenseMapper.mapToExpense(expenseDto, user);
         Expense savedExpense = expenseRepository.save(expense);
@@ -36,12 +36,12 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     @Override
-    public List<ExpenseDto> getExpenses(UUID userID) {
-        if (!userRepository.existsById(userID)) {
-            throw new ResourceNotFoundException("User does not exist with this id :" + userID);
+    public List<ExpenseDto> getExpenses(UUID userId) {
+        if (!userRepository.existsById(userId)) {
+            throw new ResourceNotFoundException("User does not exist with this id :" + userId);
         }
 
-        List<Expense> expenses = expenseRepository.findByUserId(userID);
+        List<Expense> expenses = expenseRepository.findByUserId(userId);
         return expenses.stream()
                 .map(ExpenseMapper::mapToExpenseDto)
                 .collect(Collectors.toList());

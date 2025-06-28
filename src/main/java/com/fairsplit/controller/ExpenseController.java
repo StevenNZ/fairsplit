@@ -12,19 +12,19 @@ import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/users/{userID}/expenses")
+@RequestMapping("/api/users/{userId}/expenses")
 public class ExpenseController {
     private ExpenseService expenseService;
 
     @PostMapping
-    public ResponseEntity<ExpenseDto> createExpense(@PathVariable("userID") UUID userID, @RequestBody ExpenseDto expenseDto) {
-        ExpenseDto savedExpense = expenseService.createExpense(expenseDto, userID);
+    public ResponseEntity<ExpenseDto> createExpense(@PathVariable("userId") UUID userId, @RequestBody ExpenseDto expenseDto) {
+        ExpenseDto savedExpense = expenseService.createExpense(expenseDto, userId);
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<List<ExpenseDto>> getExpenses(@PathVariable("userID") UUID userID) {
-        List<ExpenseDto> expenses = expenseService.getExpenses(userID);
+    public ResponseEntity<List<ExpenseDto>> getExpenses(@PathVariable("userId") UUID userId) {
+        List<ExpenseDto> expenses = expenseService.getExpenses(userId);
         return ResponseEntity.ok(expenses);
     }
 }

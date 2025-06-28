@@ -7,5 +7,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
-    List<Expense> findByUserId(UUID userID);
+    List<Expense> findByUserId(UUID userId);
 }
