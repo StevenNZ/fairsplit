@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -19,5 +20,11 @@ public class ExpenseController {
     public ResponseEntity<ExpenseDto> createExpense(@PathVariable("userID") UUID userID, @RequestBody ExpenseDto expenseDto) {
         ExpenseDto savedExpense = expenseService.createExpense(expenseDto, userID);
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ExpenseDto>> getExpenses(@PathVariable("userID") UUID userID) {
+        List<ExpenseDto> expenses = expenseService.getExpenses(userID);
+        return ResponseEntity.ok(expenses);
     }
 }

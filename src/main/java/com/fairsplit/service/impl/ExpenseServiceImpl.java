@@ -14,7 +14,9 @@ import com.fairsplit.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,8 +29,21 @@ public class ExpenseServiceImpl implements ExpenseService {
     public ExpenseDto createExpense(ExpenseDto expenseDto, UUID userID) {
         User user = userRepository.findById(userID)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + userID));
+
         Expense expense = ExpenseMapper.mapToExpense(expenseDto, user);
         Expense savedExpense = expenseRepository.save(expense);
         return ExpenseMapper.mapToExpenseDto(savedExpense);
+    }
+
+    @Override
+    public List<ExpenseDto> getExpenses(UUID userID) {
+        if (!userRepository.existsById(userID)) {
+            throw new ResourceNotFoundException("User does not exist with this id :" + userID);
+        }
+
+        List<Expense> expenses = expenseRepository.findByUserId(userID);
+        return expenses.stream()
+                .map(ExpenseMapper::mapToExpenseDto)
+                .collect(Collectors.toList());
     }
 }
