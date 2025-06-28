@@ -5,20 +5,19 @@ import com.fairsplit.service.ExpenseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("/api/expenses")
+@RequestMapping("/api/users/{userID}/expenses")
 public class ExpenseController {
     private ExpenseService expenseService;
 
     @PostMapping
-    public ResponseEntity<ExpenseDto> createUser(@RequestBody ExpenseDto expenseDto) {
-        ExpenseDto savedExpense = expenseService.createExpense(expenseDto);
+    public ResponseEntity<ExpenseDto> createExpense(@PathVariable("userID") UUID userID, @RequestBody ExpenseDto expenseDto) {
+        ExpenseDto savedExpense = expenseService.createExpense(expenseDto, userID);
         return new ResponseEntity<>(savedExpense, HttpStatus.CREATED);
     }
 }
