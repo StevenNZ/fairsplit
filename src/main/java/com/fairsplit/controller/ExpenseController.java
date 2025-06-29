@@ -27,4 +27,10 @@ public class ExpenseController {
         List<ExpenseDto> expenses = expenseService.getExpenses(userId);
         return ResponseEntity.ok(expenses);
     }
+
+    @PutMapping("{expenseId}")
+    public ResponseEntity<ExpenseDto> updateExpense(@PathVariable("userId") UUID userId, @PathVariable("expenseId") UUID expenseId, @RequestBody ExpenseDto expenseDto) {
+        ExpenseDto updatedExpense = expenseService.updateExpense(expenseDto, userId, expenseId);
+        return ResponseEntity.ok(updatedExpense);
+    }
 }

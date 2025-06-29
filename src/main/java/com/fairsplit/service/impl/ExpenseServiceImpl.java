@@ -46,4 +46,21 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .map(ExpenseMapper::mapToExpenseDto)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public ExpenseDto updateExpense(ExpenseDto expenseDto, UUID userId, UUID expenseId) {
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
+
+        if (!expense.getUser().getId().equals(userId)) {
+            throw new ResourceNotFoundException("Expense does not belong to this user with id :" + userId);
+        }
+
+        expense.setAmount(expenseDto.getAmount());
+        expense.setDescription(expenseDto.getDescription());
+        expense.setLocalDate(expenseDto.getLocalDate());
+
+        Expense updatedExpense = expenseRepository.save(expense);
+        return ExpenseMapper.mapToExpenseDto(updatedExpense);
+    }
 }
