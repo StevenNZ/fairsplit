@@ -33,4 +33,10 @@ public class ExpenseController {
         ExpenseDto updatedExpense = expenseService.updateExpense(expenseDto, userId, expenseId);
         return ResponseEntity.ok(updatedExpense);
     }
+
+    @DeleteMapping("{expenseId}")
+    public ResponseEntity<String> deleteUser(@PathVariable("userId") UUID userId, @PathVariable("expenseId") UUID expenseId) {
+        expenseService.deleteExpense(userId, expenseId);
+        return ResponseEntity.ok("User deleted successfully");
+    }
 }

@@ -63,4 +63,16 @@ public class ExpenseServiceImpl implements ExpenseService {
         Expense updatedExpense = expenseRepository.save(expense);
         return ExpenseMapper.mapToExpenseDto(updatedExpense);
     }
+
+    @Override
+    public void deleteExpense(UUID userId, UUID expenseId) {
+        Expense expense = expenseRepository.findById(expenseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
+
+        if (!expense.getUser().getId().equals(userId)) {
+            throw new ResourceNotFoundException("Expense does not belong to this user with id :" + userId);
+        }
+
+        expenseRepository.deleteById(expenseId);
+    }
 }
