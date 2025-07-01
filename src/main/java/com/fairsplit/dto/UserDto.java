@@ -15,5 +15,4 @@ public class UserDto {
     private String email;
     private String name;
     private String password;
-    private Set<UUID> expenseIds;
 }

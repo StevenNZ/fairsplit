@@ -73,6 +73,6 @@ public class ExpenseServiceImpl implements ExpenseService {
             throw new ResourceNotFoundException("Expense does not belong to this user with id :" + userId);
         }
 
-        expenseRepository.deleteById(expenseId);
+        expenseRepository.delete(expense);
     }
 }

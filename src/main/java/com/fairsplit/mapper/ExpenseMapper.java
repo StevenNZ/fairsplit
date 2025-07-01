@@ -10,7 +10,8 @@ public class ExpenseMapper {
                 expense.getId(),
                 expense.getAmount(),
                 expense.getDescription(),
-                expense.getLocalDate()
+                expense.getLocalDate(),
+                expense.getUser().getId()
         );
     }
 

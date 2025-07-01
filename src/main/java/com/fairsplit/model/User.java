@@ -24,7 +24,4 @@ public class User {
     private String name;
 
     private String password;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
-    private List<Expense> expenses;
 }
