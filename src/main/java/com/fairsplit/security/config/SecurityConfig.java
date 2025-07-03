@@ -1,4 +1,4 @@
-package com.fairsplit;
+package com.fairsplit.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
