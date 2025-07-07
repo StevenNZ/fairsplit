@@ -7,15 +7,16 @@ import com.fairsplit.model.User;
 import com.fairsplit.repository.UserRepository;
 import com.fairsplit.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
     @Override
     public UserDto createUser(UserDto userDto) {
 

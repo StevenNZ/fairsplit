@@ -12,6 +12,7 @@ import com.fairsplit.repository.UserRepository;
 import com.fairsplit.service.ExpenseService;
 import com.fairsplit.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,11 +20,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
 
-    private ExpenseRepository expenseRepository;
-    private UserRepository userRepository;
+    private final ExpenseRepository expenseRepository;
+    private final UserRepository userRepository;
 
     @Override
     public ExpenseDto createExpense(ExpenseDto expenseDto, UUID userId) {
