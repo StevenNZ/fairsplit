@@ -11,4 +11,6 @@ public interface UserService {
     UserDto updateUser(UUID id, UserDto updatedUser);
 
     UserDto registerUser(RegisterRequest userDto);
+
+    boolean checkUserExist(String email);
 }
