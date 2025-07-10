@@ -22,15 +22,6 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
 
     @Override
-    public UserDto createUser(UserDto userDto) {
-
-        User user = UserMapper.mapToUser(userDto);
-        User savedUser = userRepository.save(user);
-
-        return UserMapper.mapToUserDto(savedUser);
-    }
-
-    @Override
     public UserDto getUserById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
