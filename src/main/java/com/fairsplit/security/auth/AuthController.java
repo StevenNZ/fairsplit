@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @AllArgsConstructor
 public class AuthController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -29,7 +29,6 @@ public class AuthController {
         }
 
         UserDto registeredUser = userService.registerUser(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredUser);
     }
 
