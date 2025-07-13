@@ -7,6 +7,7 @@ import com.fairsplit.model.User;
 import com.fairsplit.repository.UserRepository;
 import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
+import com.fairsplit.security.jwt.JWTService;
 import com.fairsplit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
+    private final JWTService jwtService;
 
     @Override
     public UserDto getUserById(UUID id) {
@@ -62,7 +64,7 @@ public class UserServiceImpl implements UserService {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         if (authentication.isAuthenticated()) {
-            return "Success";
+            return jwtService.generateToken(request.getEmail());
         }
         return "fail";
     }
