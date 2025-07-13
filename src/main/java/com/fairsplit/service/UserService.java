@@ -15,5 +15,5 @@ public interface UserService {
 
     boolean checkUserExist(String email);
 
-    String verify(LoginRequest request);
+    String authenticateUser(LoginRequest request);
 }
