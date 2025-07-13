@@ -5,10 +5,13 @@ import com.fairsplit.exception.ResourceNotFoundException;
 import com.fairsplit.mapper.UserMapper;
 import com.fairsplit.model.User;
 import com.fairsplit.repository.UserRepository;
+import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
 import com.fairsplit.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public UserDto getUserById(UUID id) {
@@ -51,5 +55,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean checkUserExist(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public String verify(LoginRequest request) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+
+        if (authentication.isAuthenticated()) {
+            return "Success";
+        }
+        return "fail";
     }
 }
