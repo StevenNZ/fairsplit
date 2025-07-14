@@ -1,10 +1,11 @@
 package com.fairsplit.security.util;
 
 import com.fairsplit.model.User;
-import com.fairsplit.service.UserService;
+import com.fairsplit.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -13,11 +14,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class SecurityUtils {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
     public User getCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.findUserByEmail(email);
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 
     public void checkOwnership(UUID targetUserId) {
