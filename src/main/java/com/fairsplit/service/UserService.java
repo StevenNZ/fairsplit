@@ -14,7 +14,7 @@ public interface UserService {
 
     UserDto registerUser(RegisterRequest userDto);
 
-    User findUserByEmail(String email);
+    UserDto findUserByEmail(String email);
 
-    String authenticateUser(LoginRequest request);
+    UserDto authenticateUser(LoginRequest request);
 }

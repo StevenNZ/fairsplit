@@ -60,20 +60,22 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(userRepository.save(user));
     }
 
-    public User findUserByEmail(String email) {
-        return userRepository.findByEmail(email)
+    public UserDto findUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
+        return UserMapper.mapToUserDto(user);
     }
 
     @Override
-    public String authenticateUser(LoginRequest request) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-            );
-            return jwtService.generateToken(request.getEmail());
-        } catch (AuthenticationException ex) {
-            throw new BadCredentialsException("Invalid email or password");
+    public UserDto authenticateUser(LoginRequest request) {
+        Authentication auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+        );
+
+        if (!auth.isAuthenticated()) {
+            throw new BadCredentialsException("Invalid credentials");
         }
+
+        return findUserByEmail(request.getEmail());
     }
 }

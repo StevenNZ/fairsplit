@@ -2,6 +2,7 @@ package com.fairsplit.security.auth;
 
 import com.fairsplit.dto.UserDto;
 import com.fairsplit.exception.ResourceNotFoundException;
+import com.fairsplit.security.jwt.JWTService;
 import com.fairsplit.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     private final UserService userService;
+    private final JWTService jwtService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
@@ -33,8 +35,9 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
-        String token = userService.authenticateUser(request);
-        return ResponseEntity.ok(new AuthResponse(token));
+        UserDto user = userService.authenticateUser(request);
+        String token = jwtService.generateToken(user.getEmail());
+        return ResponseEntity.ok(new AuthResponse(token, user.getId()));
     }
 
 }
