@@ -13,6 +13,7 @@ import com.fairsplit.service.ExpenseService;
 import com.fairsplit.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +55,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
 
         if (!expense.getUser().getId().equals(userId)) {
-            throw new ResourceNotFoundException("Expense does not belong to this user with id :" + userId);
+            throw new AccessDeniedException("Expense does not belong to this user with id :" + userId);
         }
 
         expense.setAmount(expenseDto.getAmount());
@@ -71,7 +72,7 @@ public class ExpenseServiceImpl implements ExpenseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
 
         if (!expense.getUser().getId().equals(userId)) {
-            throw new ResourceNotFoundException("Expense does not belong to this user with id :" + userId);
+            throw new AccessDeniedException("Expense does not belong to this user with id :" + userId);
         }
 
         expenseRepository.delete(expense);
