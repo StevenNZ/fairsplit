@@ -1,6 +1,7 @@
 package com.fairsplit.service;
 
 import com.fairsplit.dto.UserDto;
+import com.fairsplit.model.User;
 import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
 
@@ -13,7 +14,7 @@ public interface UserService {
 
     UserDto registerUser(RegisterRequest userDto);
 
-    boolean checkUserExist(String email);
+    User findUserByEmail(String email);
 
     String authenticateUser(LoginRequest request);
 }

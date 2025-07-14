@@ -8,6 +8,7 @@ import com.fairsplit.repository.UserRepository;
 import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
 import com.fairsplit.security.jwt.JWTService;
+import com.fairsplit.security.util.SecurityUtils;
 import com.fairsplit.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,11 +29,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
     private final JWTService jwtService;
+    private final SecurityUtils securityUtils;
 
     @Override
     public UserDto getUserById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
+        securityUtils.checkOwnership(id);
         return UserMapper.mapToUserDto(user);
     }
 
@@ -40,6 +43,7 @@ public class UserServiceImpl implements UserService {
     public UserDto updateUser(UUID id, UserDto updatedUser) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
+        securityUtils.checkOwnership(id);
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
         User updatedUserObj = userRepository.save(user);
@@ -56,9 +60,9 @@ public class UserServiceImpl implements UserService {
         return UserMapper.mapToUserDto(userRepository.save(user));
     }
 
-    @Override
-    public boolean checkUserExist(String email) {
-        return userRepository.existsByEmail(email);
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with email: " + email));
     }
 
     @Override
