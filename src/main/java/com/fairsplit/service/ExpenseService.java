@@ -1,8 +1,6 @@
 package com.fairsplit.service;
 
 import com.fairsplit.dto.ExpenseDto;
-import com.fairsplit.model.User;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.UUID;

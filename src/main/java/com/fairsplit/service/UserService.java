@@ -1,7 +1,6 @@
 package com.fairsplit.service;
 
 import com.fairsplit.dto.UserDto;
-import com.fairsplit.model.User;
 import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
 

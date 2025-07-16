@@ -7,7 +7,6 @@ import com.fairsplit.model.User;
 import com.fairsplit.repository.UserRepository;
 import com.fairsplit.security.auth.LoginRequest;
 import com.fairsplit.security.auth.RegisterRequest;
-import com.fairsplit.security.jwt.JWTService;
 import com.fairsplit.security.util.SecurityUtils;
 import com.fairsplit.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +26,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder encoder;
     private final AuthenticationManager authenticationManager;
-    private final JWTService jwtService;
     private final SecurityUtils securityUtils;
 
     @Override

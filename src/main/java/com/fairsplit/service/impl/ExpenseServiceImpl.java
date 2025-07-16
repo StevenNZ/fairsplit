@@ -1,17 +1,13 @@
 package com.fairsplit.service.impl;
 
 import com.fairsplit.dto.ExpenseDto;
-import com.fairsplit.dto.UserDto;
 import com.fairsplit.exception.ResourceNotFoundException;
 import com.fairsplit.mapper.ExpenseMapper;
-import com.fairsplit.mapper.UserMapper;
 import com.fairsplit.model.Expense;
 import com.fairsplit.model.User;
 import com.fairsplit.repository.ExpenseRepository;
 import com.fairsplit.repository.UserRepository;
 import com.fairsplit.service.ExpenseService;
-import com.fairsplit.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
