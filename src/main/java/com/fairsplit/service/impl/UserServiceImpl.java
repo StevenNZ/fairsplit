@@ -30,6 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(UUID id) {
+        securityUtils.checkOwnership(id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
         securityUtils.checkOwnership(id);
@@ -38,9 +39,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UUID id, UserDto updatedUser) {
+        securityUtils.checkOwnership(id);
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + id));
-        securityUtils.checkOwnership(id);
         user.setName(updatedUser.getName());
         user.setEmail(updatedUser.getEmail());
         User updatedUserObj = userRepository.save(user);

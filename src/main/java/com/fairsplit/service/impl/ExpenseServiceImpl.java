@@ -7,6 +7,7 @@ import com.fairsplit.model.Expense;
 import com.fairsplit.model.User;
 import com.fairsplit.repository.ExpenseRepository;
 import com.fairsplit.repository.UserRepository;
+import com.fairsplit.security.util.SecurityUtils;
 import com.fairsplit.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.AccessDeniedException;
@@ -22,9 +23,11 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     private final ExpenseRepository expenseRepository;
     private final UserRepository userRepository;
+    private final SecurityUtils securityUtils;
 
     @Override
     public ExpenseDto createExpense(ExpenseDto expenseDto, UUID userId) {
+        securityUtils.checkOwnership(userId);
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User does not exist with this id :" + userId));
 
@@ -35,6 +38,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public List<ExpenseDto> getExpenses(UUID userId) {
+        securityUtils.checkOwnership(userId);
         if (!userRepository.existsById(userId)) {
             throw new ResourceNotFoundException("User does not exist with this id :" + userId);
         }
@@ -47,6 +51,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public ExpenseDto updateExpense(ExpenseDto expenseDto, UUID userId, UUID expenseId) {
+        securityUtils.checkOwnership(userId);
         Expense expense = expenseRepository.findById(expenseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
 
@@ -64,6 +69,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override
     public void deleteExpense(UUID userId, UUID expenseId) {
+        securityUtils.checkOwnership(userId);
         Expense expense = expenseRepository.findById(expenseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Expense does not exist with this id :" + expenseId));
 
