@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -17,7 +18,14 @@ public class GroupMembership {
     @GeneratedValue
     private UUID id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    private String password;
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private Group group;
+
+    @Column(name = "joined_at", columnDefinition = "DATE")
+    private LocalDate joinedAt;
 }
