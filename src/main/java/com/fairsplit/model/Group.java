@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 import java.util.UUID;
 
+// currently groups not implemented
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
